@@ -16,14 +16,16 @@ class VaultPeriodicOidcLogin < Formula
   def post_install
     (etc/"vault-periodic-oidc-login").mkpath
 
-    File.open(etc/"vault-periodic-oidc-login/config.yaml", "w") do |file|
-      file.write <<~EOS
-        # vault-periodic-oidc-login configuration file
+    unless File.exist?(config_file)
+      File.open(etc/"vault-periodic-oidc-login/config.yaml", "w") do |file|
+        file.write <<~EOS
+          # vault-periodic-oidc-login configuration file
 
-        minTTL: 72h
-        tokenPath: "$HOME/.vault-token"
-        vaultAddr: https://vault.acme.com
-      EOS
+          minTTL: 72h
+          tokenPath: "$HOME/.vault-token"
+          vaultAddr: https://vault.acme.com
+        EOS
+      end
     end
   end
 
