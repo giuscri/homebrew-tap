@@ -35,11 +35,17 @@ class VaultPeriodicOidcLogin < Formula
 
   service do
     run [bin/"vault-periodic-oidc-login", "--config-file=#{etc}/vault-periodic-oidc-login/config.yaml"]
-    run_type :interval
-    interval 300
     environment_variables PATH: std_service_path_env
     log_path var/"log/vault-periodic-oidc-login.log"
     error_log_path var/"log/vault-periodic-oidc-login.log"
+
+    # from "man launchd.plist":
+    # "Unlike cron which skips job invocations when the computer is asleep, launchd
+    # will start the job the next time the computer wakes up. If multiple
+    # intervals transpire before the computer is woken, those events will be
+    # coalesced into one event upon wake from sleep."
+    run_type :cron
+    cron "@hourly"
   end
 
   def caveats
