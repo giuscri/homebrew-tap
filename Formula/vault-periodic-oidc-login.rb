@@ -1,12 +1,16 @@
 class VaultPeriodicOidcLogin < Formula
   desc "Run `vault login -method=oidc` periodically."
   homepage "github.com/giuscri/vault-periodic-oidc-login"
-  version "0.0.2"
+  version "0.0.3"
   license "MIT"
 
   if OS.mac? && Hardware::CPU.arm?
-      url "https://github.com/giuscri/vault-periodic-oidc-login/releases/download/0.0.2/vault-periodic-oidc-login_0.0.2_darwin_arm64.tar.gz"
-      sha256 "c04311aad266b2fb1816ea250a1d917dccc8adb8c92d7e8baef086d95d684f04"
+      url "https://github.com/giuscri/vault-periodic-oidc-login/releases/download/0.0.3/vault-periodic-oidc-login_0.0.3_darwin_arm64.tar.gz"
+      sha256 "4f797d82dfc23c797ce7485c6400a1c28fcab37e20c8942ba398aa62dbc36580"
+  end
+  if OS.mac? && Hardware::CPU.intel?
+      url "https://github.com/giuscri/vault-periodic-oidc-login/releases/download/0.0.3/vault-periodic-oidc-login_0.0.3_darwin_amd64.tar.gz"
+      sha256 "7bd906118ada90a2a6cfe867f7ba644da1bf5714a53ffadfeb29552f49d5339e"
   end
 
   def install
