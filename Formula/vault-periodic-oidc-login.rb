@@ -1,7 +1,7 @@
 class VaultPeriodicOidcLogin < Formula
   desc "Run `vault login -method=oidc` periodically."
   homepage "github.com/giuscri/vault-periodic-oidc-login"
-  version "0.0.3"
+  version "0.0.4"
   license "MIT"
 
   if OS.mac? && Hardware::CPU.arm?
@@ -20,11 +20,9 @@ class VaultPeriodicOidcLogin < Formula
   def post_install
     (etc/"vault-periodic-oidc-login").mkpath
 
-    unless File.exist?(config_file)
+    unless File.exist?(etc/"vault-periodic-oidc-login/config.yaml")
       File.open(etc/"vault-periodic-oidc-login/config.yaml", "w") do |file|
         file.write <<~EOS
-          # vault-periodic-oidc-login configuration file
-
           minTTL: 72h
           tokenPath: "$HOME/.vault-token"
           vaultAddr: https://vault.acme.com
@@ -38,7 +36,7 @@ class VaultPeriodicOidcLogin < Formula
   end
 
   service do
-    run [bin/"vault-periodic-oidc-login", "--config-file=#{etc}/vault-periodic-oidc-login/config.yaml"]
+    run [bin/"vault-periodic-oidc-login", "-config-file=#{etc}/vault-periodic-oidc-login/config.yaml"]
     environment_variables PATH: std_service_path_env
     log_path var/"log/vault-periodic-oidc-login.log"
     error_log_path var/"log/vault-periodic-oidc-login.log"
@@ -50,12 +48,5 @@ class VaultPeriodicOidcLogin < Formula
     # coalesced into one event upon wake from sleep."
     run_type :cron
     cron "@hourly"
-  end
-
-  def caveats
-    <<~EOS
-      The service uses a configuration file that you must customize before running:
-        #{etc}/vault-periodic-oidc-login/config.yaml
-    EOS
   end
 end
