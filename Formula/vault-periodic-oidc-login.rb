@@ -1,7 +1,7 @@
 class VaultPeriodicOidcLogin < Formula
   desc "Run `vault login -method=oidc` periodically."
   homepage "github.com/giuscri/vault-periodic-oidc-login"
-  version "0.0.4"
+  version "0.0.3"
   license "MIT"
 
   if OS.mac? && Hardware::CPU.arm?
